@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from app.schemas.auth import Token
+from http.client import HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from typing import Annotated
+from app.schemas.auth import *
 from app.database.boxchat import *
 from app.Cores.database import SessionLocal  # thêm cái này vào cho anh
-from app import schemas
 
 router = APIRouter()
 
@@ -13,8 +13,11 @@ def get_db():
         yield db
     finally:
         db.close()
+db_dependency = Annotated[SessionLocal, Depends(get_db)]
 
-@router.get("/user", response_model=Token)
-def index(db: Session = Depends(get_db)):
-    user = db.query(User).first()
-    return {"access_token": user.name}
+@router.post("/create")
+def create_user(auth: create_user,db: db_dependency):
+    user = db.query(User).filter(User.email == auth.email).first()
+    if user:
+        raise HTTPException(status_code=404, detail = "Invalid Email")
+    return user
