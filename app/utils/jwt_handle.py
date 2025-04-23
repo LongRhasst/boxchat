@@ -18,7 +18,7 @@ def create_access_token(data:dict, expires_delta:timedelta=None):
 def decode_access_token(token: str):
     try:
         payload = jwt.decode(token,SECRET_KEY,algorithms=["HS256"])
-        email:EmailStr = payload.get("sub")
+        email:str = payload.get("sub")
         if email is None:
             raise JWTError
         token_data = TokenData(email=email)
