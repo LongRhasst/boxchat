@@ -1,21 +1,18 @@
-from fastapi import FastAPI
 from app.modules.Router import router as auth_router
 from app.database import boxchat
 from app.Cores.database import engine
+from fastapi import FastAPI, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 app = FastAPI()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app.include_router(auth_router)
 boxchat.Base.metadata.create_all(bind = engine)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
+@app.get("/users/me")
+def read_users_me(token: str = Depends(oauth2_scheme)):
+    return {"token": token}
 #migration, model
 #dùng alchemy tạo 2 models: sinh_vien, lop_hoc (id, name)
 #tạo migration tạo ra 2 bảng
