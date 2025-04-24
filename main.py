@@ -1,12 +1,14 @@
 from app.modules.Router import router as auth_router
-from fastapi import FastAPI, Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
+from app.modules.Messenger import messenger_router as app_router
+from fastapi import FastAPI
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from app.swagger.swagger import custom_openapi
+from app.Cores.middleware import AuthMiddleware
 app = FastAPI()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+app.add_middleware(AuthMiddleware)
+
+app.openapi = lambda: custom_openapi(app)
 app.include_router(auth_router)
+app.include_router(app_router)
 
-@app.get("/users/me")
-def read_users_me(token: str = Depends(oauth2_scheme)):
-    return {"token": token}

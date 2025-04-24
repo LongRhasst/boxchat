@@ -26,6 +26,7 @@ class Conversation(Base, TimeStampMixin):
     __tablename__ = "conversations"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), index=True)
+    admin_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     modified_by = Column(String(255))
     created_by = Column(String(255))
 
