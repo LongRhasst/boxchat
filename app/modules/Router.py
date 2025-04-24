@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from typing import Annotated
 import jwt
 from jose import JWTError
+from starlette.responses import JSONResponse
+
 from app.schemas.auth import *
 from app.database.boxchat import *
 from app.Cores.database import SessionLocal
@@ -25,7 +27,7 @@ db_dependency = Annotated[SessionLocal, Depends(get_db)]
 def create_user(auth: CreateUser,db: db_dependency):
     existing_user = db.query(User).filter(User.email == auth.email).first()
     if existing_user:
-        raise HTTPException(status_code=404, detail = "Email already registered")
+        raise HTTPException(status_code=409, detail = "Email already registered")
 
     new_user = User(
         email=str(auth.email),
@@ -43,24 +45,19 @@ async def login( account: LoginUser, db: db_dependency):
     if not user or not verify_password(account.password,user.hashed_password):
         raise HTTPException(status_code=404, detail="Invalid credentials")
     access_token = jwt.encode({"user_id": user.id}, SECRET_KEY, algorithm="HS256")
-    return {
-        "access_token": access_token
-    }
+    response = JSONResponse(status_code=200, content={"detail": "success"})
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        max_age = 1800,
+        samesite="lax",
+        secure=False
+    )
+    return response
 
 
 @router.get("/user")
-async def get_user(request: Request, db: db_dependency):
-    user_id = getattr(request.state, "user_id", None)
-
-    if not user_id:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    return {
-        "id": user.id,
-        "email": user.email,
-        "name": user.name
-    }
+async def get_user(request: Request):
+    user_id = request.state.user_id
+    return {"message": f"Welcome user {user_id}"}

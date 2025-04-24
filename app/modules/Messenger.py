@@ -17,7 +17,7 @@ def add_member(db: db_dependency(), conversation_id: int, user_ids: List[int]):
     db.commit()
 
 # Route to create a new conversation
-@messenger_router.post("/user")
+@messenger_router.post("/Conversation/create_conversation")
 async def create_conversation(db: db_dependency,user_id: int,name: str,members_id: List[int]):
     # Create a conversation
     conversation = Conversation()
@@ -39,7 +39,7 @@ async def create_conversation(db: db_dependency,user_id: int,name: str,members_i
     }
 
 # Route to add members to an existing conversation
-@messenger_router.put("/user/{conversation_id}/add_member")
+@messenger_router.put("/conversation/{conversation_id}/add_member")
 def add_conversation_member(db: db_dependency, conversation_id: int, members_id: List[int]):
     add_member(db, conversation_id, members_id)
     return {
@@ -47,14 +47,14 @@ def add_conversation_member(db: db_dependency, conversation_id: int, members_id:
     }
 
 # Route to delete a conversation
-@messenger_router.delete("/user/{conversation_id}/delete_conversation")
+@messenger_router.delete("/conversation/{conversation_id}/delete_conversation")
 def delete_conversation(db: db_dependency, conversation_id: int):
     db.query(Conversation).filter(Conversation.id == conversation_id).delete()
     db.commit()
     return {"status": "success"}
 
 # Route to retrieve messages from a conversation
-@messenger_router.get("/user/{conversation_id}/read_messages")
+@messenger_router.get("/conversation/{conversation_id}/read_messages")
 def get_messages(db: db_dependency, conversation_id: int, user_id: int):
     messages = db.query(Message).filter(Message.conversation_id == conversation_id).order_by(Message.created_at).all()
 
@@ -68,7 +68,7 @@ def get_messages(db: db_dependency, conversation_id: int, user_id: int):
         "messages": filtered_messages
     }
 
-@messenger_router.post("/user/{conversation_id}/send_message")
+@messenger_router.post("/conversation/{conversation_id}/send_message")
 def send_message(db: db_dependency, content: str, conversation_id: int, user_id: int):
     message = Message()
     message.content = content
@@ -82,7 +82,7 @@ def send_message(db: db_dependency, content: str, conversation_id: int, user_id:
 
 
 
-@messenger_router.put("/user/block_user")
+@messenger_router.put("/relationship/block_user")
 def add_block_user(db: db_dependency, blocker_id: int, blocked_id: int):
     block = BlockList()
     block.blocker_id = blocker_id
@@ -92,7 +92,7 @@ def add_block_user(db: db_dependency, blocker_id: int, blocked_id: int):
     return {
         HTTPStatus.OK: "success"
     }
-@messenger_router.delete("/user/unblock_user")
+@messenger_router.delete("/relationship/unblock_user")
 def remove_block_user(db: db_dependency, blocker_id: int, blocked_id: int):
     db.query(BlockList).filter(BlockList.blocker_id == blocker_id, BlockList.blocked_id == blocked_id).delete()
     db.commit()
