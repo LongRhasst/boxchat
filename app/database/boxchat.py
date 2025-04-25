@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, Text, Boolean, Index
+from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, Text, Boolean, Index, Enum
 from sqlalchemy.orm import relationship
 from app.Cores.database import Base
 
@@ -27,6 +27,7 @@ class Conversation(Base, TimeStampMixin):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), index=True)
     admin_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    type = Column(Enum("private", "group", name="conversation_type"))
     modified_by = Column(String(255))
     created_by = Column(String(255))
 

@@ -1,4 +1,4 @@
-from app.modules.Router import router as auth_router
+from app.modules.Users import router as auth_router
 from app.modules.Messenger import messenger_router as app_router
 from fastapi import FastAPI
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials

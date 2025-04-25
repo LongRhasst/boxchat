@@ -19,10 +19,6 @@ class SendMessage(BaseModel):
     user_id: int
     content: str
 
-class AddBlockUser(BaseModel):
-    blocker_id: int
-    blocked_id: int
-
-class RemoveBlockUser(BaseModel):
+class RelationshipBlocked(BaseModel):
     blocker_id: int
     blocked_id: int

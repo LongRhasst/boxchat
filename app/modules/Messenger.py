@@ -1,7 +1,10 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter
-from app.modules.Router import db_dependency
+from starlette.responses import JSONResponse
+
+from app.schemas.conversation import *
+from fastapi import APIRouter, Request
+from app.modules.Users import db_dependency
 from app.database.boxchat import *
 from typing import List
 
@@ -18,32 +21,37 @@ def add_member(db: db_dependency(), conversation_id: int, user_ids: List[int]):
 
 # Route to create a new conversation
 @messenger_router.post("/Conversation/create_conversation")
-async def create_conversation(db: db_dependency,user_id: int,name: str,members_id: List[int]):
+async def create_conversation(db: db_dependency, schemas: CreateConversation):
     # Create a conversation
     conversation = Conversation()
-    conversation.name = name
-    conversation.admin_id = user_id
+    conversation.name = schemas.name
+    conversation.admin_id = schemas.user_id
+
+    # Get the ID of the newly created conversation
+    conversation_id = db.query(Conversation).filter(Conversation.admin_id == schemas.user_id and Conversation.name == schemas.name).first().id
+
+    # Add members to the conversation
+    add_member(db, conversation_id, schemas.members_id)
+    if len(schemas.members_id) > 1:
+        conversation.type = "private"
+    else:
+        conversation.type = "group"
+
     db.add(conversation)
     db.commit()
 
-    # Get the ID of the newly created conversation
-    conversation_id = db.query(Conversation).filter(Conversation.admin_id == user_id, Conversation.name == name).first().id
-
-    # Add members to the conversation
-    add_member(db, conversation_id, members_id)
-
     return {
-        "name": name,
-        "user_id": user_id,
-        "members_id": members_id
+        "name": schemas.name,
+        "user_id": schemas.user_id,
+        "members_id": schemas.members_id
     }
 
 # Route to add members to an existing conversation
-@messenger_router.put("/conversation/{conversation_id}/add_member")
-def add_conversation_member(db: db_dependency, conversation_id: int, members_id: List[int]):
-    add_member(db, conversation_id, members_id)
+@messenger_router.post("/conversation/{conversation_id}/add_member")
+def add_conversation_member(db: db_dependency, conversation_id: int, members: AddConversationMember):
+    add_member(db, conversation_id, members.members_id)
     return {
-        "members_id": members_id
+        "members_id": members.members_id
     }
 
 # Route to delete a conversation
@@ -53,14 +61,23 @@ def delete_conversation(db: db_dependency, conversation_id: int):
     db.commit()
     return {"status": "success"}
 
+@messenger_router.get("/conversation/{conversation_id}")
+def get_conversation_id(conversation_id: int):
+    response = JSONResponse(status_code=200, content={"detail": "success"})
+    response.set_cookie(
+        key = "conversation_id",
+        value = str(conversation_id)
+    )
+    return response
+
+
 # Route to retrieve messages from a conversation
 @messenger_router.get("/conversation/{conversation_id}/read_messages")
-def get_messages(db: db_dependency, conversation_id: int, user_id: int):
-    messages = db.query(Message).filter(Message.conversation_id == conversation_id).order_by(Message.created_at).all()
-
+def get_messages(db: db_dependency, messages: GetMessages):
+    messages = db.query(Message).filter(Message.conversation_id == messages.Conversation_id).order_by(Message.created_at).all()
     # Placeholder logic for fetching blocked users
     blocked_ids = [
-        block.blocked_id for block in db.query(BlockList).filter(BlockList.blocked_id == user_id).all()
+        block.blocked_id for block in db.query(BlockList).filter(BlockList.blocked_id == messages.user_id).all()
     ]
     filtered_messages = [message for message in messages if message.user_id not in blocked_ids]
 
@@ -69,31 +86,29 @@ def get_messages(db: db_dependency, conversation_id: int, user_id: int):
     }
 
 @messenger_router.post("/conversation/{conversation_id}/send_message")
-def send_message(db: db_dependency, content: str, conversation_id: int, user_id: int):
+def send_message(db: db_dependency, messages: SendMessage):
     message = Message()
-    message.content = content
-    message.conversation_id = conversation_id
-    message.user_id = user_id
+    message.content = messages.content
+    message.conversation_id = messages.conversation_id
+    message.user_id = messages.user_id
     db.add(message)
     db.commit()
     return {
-        "Time": message.content
+        "Time": message.created_at
     }
 
-
-
 @messenger_router.put("/relationship/block_user")
-def add_block_user(db: db_dependency, blocker_id: int, blocked_id: int):
+def add_block_user(db: db_dependency, relation: RelationshipBlocked):
     block = BlockList()
-    block.blocker_id = blocker_id
-    block.blocked_id = blocked_id
+    block.blocker_id = relation.blocker_id
+    block.blocked_id = relation.blocked_id
     db.add(block)
     db.commit()
     return {
         HTTPStatus.OK: "success"
     }
 @messenger_router.delete("/relationship/unblock_user")
-def remove_block_user(db: db_dependency, blocker_id: int, blocked_id: int):
-    db.query(BlockList).filter(BlockList.blocker_id == blocker_id, BlockList.blocked_id == blocked_id).delete()
+def remove_block_user(db: db_dependency, relation: RelationshipBlocked):
+    db.query(BlockList).filter(BlockList.blocker_id == relation.blocker_id, BlockList.blocked_id == relation.blocked_id).delete()
     db.commit()
 

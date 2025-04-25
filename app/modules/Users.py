@@ -1,16 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
 from typing import Annotated
+
 import jwt
-from jose import JWTError
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.security import HTTPBearer
 from starlette.responses import JSONResponse
 
-from app.schemas.auth import *
-from app.database.boxchat import *
-from app.Cores.database import SessionLocal
-from app.utils.jwt_handle import create_access_token, decode_access_token
-from app.utils.auth_handle import get_password_hash, verify_password
-from fastapi.security import HTTPBearer
 from app.Cores.config import SECRET_KEY
+from app.Cores.database import SessionLocal
+from app.database.boxchat import *
+from app.schemas.auth import *
+from app.utils.auth_handle import get_password_hash, verify_password
 
 oauth2_scheme = HTTPBearer()
 router = APIRouter()
@@ -61,3 +60,10 @@ async def login( account: LoginUser, db: db_dependency):
 async def get_user(request: Request):
     user_id = request.state.user_id
     return {"message": f"Welcome user {user_id}"}
+
+
+@router.delete("/auth/logout")
+def logout():
+    response = JSONResponse(content={"message": "Logged out successfully"}, status_code=200)
+    response.delete_cookie(key="access_token")
+    return response
