@@ -22,6 +22,8 @@ def get_db():
         db.close()
 db_dependency = Annotated[SessionLocal, Depends(get_db)]
 
+
+
 @router.post("/auth/create")
 def create_user(auth: CreateUser,db: db_dependency):
     existing_user = db.query(User).filter(User.email == auth.email).first()

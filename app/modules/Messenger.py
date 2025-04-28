@@ -47,7 +47,7 @@ async def create_conversation(db: db_dependency, schemas: CreateConversation):
     }
 
 # Route to add members to an existing conversation
-@messenger_router.post("/conversation/{conversation_id}/add_member")
+@messenger_router.post("/conversation/add_member")
 def add_conversation_member(db: db_dependency, conversation_id: int, members: AddConversationMember):
     add_member(db, conversation_id, members.members_id)
     return {
@@ -55,20 +55,20 @@ def add_conversation_member(db: db_dependency, conversation_id: int, members: Ad
     }
 
 # Route to delete a conversation
-@messenger_router.delete("/conversation/{conversation_id}/delete_conversation")
+@messenger_router.delete("/conversation/delete_conversation")
 def delete_conversation(db: db_dependency, conversation_id: int):
     db.query(Conversation).filter(Conversation.id == conversation_id).delete()
     db.commit()
     return {"status": "success"}
 
-@messenger_router.get("/conversation/{conversation_id}")
-def get_conversation_id(conversation_id: int):
-    response = JSONResponse(status_code=200, content={"detail": "success"})
-    response.set_cookie(
-        key = "conversation_id",
-        value = str(conversation_id)
-    )
-    return response
+# @messenger_router.get("/conversation/{conversation_id}")
+# def get_conversation_id(conversation_id: int):
+#     response = JSONResponse(status_code=200, content={"detail": "success"})
+#     response.set_cookie(
+#         key = "conversation_id",
+#         value = str(conversation_id)
+#     )
+#     return response
 
 
 # Route to retrieve messages from a conversation
@@ -85,7 +85,7 @@ def get_messages(db: db_dependency, messages: GetMessages):
         "messages": filtered_messages
     }
 
-@messenger_router.post("/conversation/{conversation_id}/send_message")
+@messenger_router.post("/conversation/send_message")
 def send_message(db: db_dependency, messages: SendMessage):
     message = Message()
     message.content = messages.content
@@ -97,7 +97,7 @@ def send_message(db: db_dependency, messages: SendMessage):
         "Time": message.created_at
     }
 
-@messenger_router.put("/relationship/block_user")
+@messenger_router.post("/conversation/relationship/block_user")
 def add_block_user(db: db_dependency, relation: RelationshipBlocked):
     block = BlockList()
     block.blocker_id = relation.blocker_id
@@ -107,7 +107,7 @@ def add_block_user(db: db_dependency, relation: RelationshipBlocked):
     return {
         HTTPStatus.OK: "success"
     }
-@messenger_router.delete("/relationship/unblock_user")
+@messenger_router.delete("/conversation/relationship/unblock_user")
 def remove_block_user(db: db_dependency, relation: RelationshipBlocked):
     db.query(BlockList).filter(BlockList.blocker_id == relation.blocker_id, BlockList.blocked_id == relation.blocked_id).delete()
     db.commit()
