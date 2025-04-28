@@ -59,7 +59,10 @@ async def login( account: LoginUser, db: db_dependency):
 @router.get("/user")
 async def get_user(request: Request):
     user_id = request.state.user_id
-    return {"message": f"Welcome user {user_id}"}
+    return {
+        "user_id": user_id,
+        "message": f"Welcome user {user_id}"
+    }
 
 
 @router.delete("/auth/logout")

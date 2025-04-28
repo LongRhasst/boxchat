@@ -12,20 +12,18 @@ class AuthMiddleware(BaseHTTPMiddleware):
         if path.startswith(("/public", "/docs", "/openapi.json", "/redoc")):
             return await call_next(request)
 
-        # Chỉ kiểm tra token với route /user
-        if path.startswith("/user"):
-            # 👉 Lấy token từ cookies thay vì header
-            token = request.cookies.get("access_token")
+        # 👉 Lấy token từ cookies thay vì header
+        token = request.cookies.get("access_token")
 
-            if not token:
-                return JSONResponse({"message": "Unauthorized - Missing Token"}, status_code=401)
+        if not token:
+            return JSONResponse({"message": "Unauthorized - Missing Token"}, status_code=401)
 
-            try:
-                payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-                request.state.user_id = payload.get("user_id")  # ✅ Gán user_id cho request
-            except jwt.ExpiredSignatureError:
-                return JSONResponse({"message": "Token Expired"}, status_code=401)
-            except jwt.InvalidTokenError:
-                return JSONResponse({"message": "Invalid Token"}, status_code=401)
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            request.state.user_id = payload.get("user_id")
+        except jwt.ExpiredSignatureError:
+            return JSONResponse({"message": "Token Expired"}, status_code=401)
+        except jwt.InvalidTokenError:
+            return JSONResponse({"message": "Invalid Token"}, status_code=401)
 
         return await call_next(request)
