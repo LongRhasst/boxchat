@@ -5,10 +5,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.swagger.swagger import custom_openapi
 from app.Cores.middleware import AuthMiddleware
 app = FastAPI()
-
-app.add_middleware(AuthMiddleware)
-
 app.openapi = lambda: custom_openapi(app)
+app.add_middleware(AuthMiddleware)
 app.include_router(auth_router)
 app.include_router(app_router)
 

@@ -4,12 +4,16 @@ from starlette.responses import JSONResponse, Response
 import jwt
 from app.Cores.config import SECRET_KEY
 
+public_routes = ("/public", "/docs", "/openapi.json", "/redoc", "/auth")
+
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         path = request.url.path
 
-        # Bỏ qua các route public và docs
-        if path.startswith(("/public", "/docs", "/openapi.json", "/redoc")):
+        # Bỏ qua các route không yêu cầu bảo mật (public routes)
+
+
+        if any(path.startswith(route) for route in public_routes):
             return await call_next(request)
 
         # 👉 Lấy token từ cookies thay vì header
@@ -26,4 +30,5 @@ class AuthMiddleware(BaseHTTPMiddleware):
         except jwt.InvalidTokenError:
             return JSONResponse({"message": "Invalid Token"}, status_code=401)
 
+        # Tiếp tục xử lý request
         return await call_next(request)
