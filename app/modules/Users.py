@@ -24,7 +24,7 @@ db_dependency = Annotated[SessionLocal, Depends(get_db)]
 
 
 
-@router.post("/auth/create")
+@router.post("/auth/create", tags = ["Authentication"])
 def create_user(auth: CreateUser,db: db_dependency):
     existing_user = db.query(User).filter(User.email == auth.email).first()
     if existing_user:
@@ -40,7 +40,7 @@ def create_user(auth: CreateUser,db: db_dependency):
     db.refresh(new_user)
     return auth.email
 
-@router.post("/auth/login")
+@router.post("/auth/login", tags = ["Authentication"])
 async def login( account: LoginUser, db: db_dependency):
     user = db.query(User).filter(User.email == account.email).first()
     if not user or not verify_password(account.password,user.hashed_password):
@@ -58,7 +58,7 @@ async def login( account: LoginUser, db: db_dependency):
     return response
 
 
-@router.get("/user")
+@router.get("/user", tags = ["Authorize"])
 async def get_user(request: Request):
     user_id = request.state.user_id
     return {
@@ -67,7 +67,7 @@ async def get_user(request: Request):
     }
 
 
-@router.delete("/auth/logout")
+@router.delete("/auth/logout", tags = ["Authentication"])
 def logout():
     response = JSONResponse(content={"message": "Logged out successfully"}, status_code=200)
     response.delete_cookie(key="access_token")

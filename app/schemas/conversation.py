@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from typing import List
 
 class CreateConversation(BaseModel):
-    user_id: int
     name: str
     members_id: List[int]
 
@@ -22,3 +21,7 @@ class SendMessage(BaseModel):
 class RelationshipBlocked(BaseModel):
     blocker_id: int
     blocked_id: int
+
+class ChangePassword(BaseModel):
+    new_password: str
+    old_password: str
