@@ -1,6 +1,4 @@
-from xmlrpc.client import Boolean
-
-from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, Text, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, Text, Boolean, Index, Enum
 from sqlalchemy.orm import relationship
 from app.Cores.database import Base
 
@@ -13,11 +11,11 @@ class TimeStampMixin:
 class User(Base, TimeStampMixin):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    email = Column(String, index=True)
-    hashed_password = Column(String)
-    modified_by = Column(String)
-    created_by = Column(String)
+    name = Column(String(255), index=True)
+    email = Column(String(255), index=True)
+    hashed_password = Column(String(255))
+    modified_by = Column(String(255))
+    created_by = Column(String(255))
 
     messages = relationship("Message", back_populates="author")
 
@@ -27,9 +25,11 @@ class User(Base, TimeStampMixin):
 class Conversation(Base, TimeStampMixin):
     __tablename__ = "conversations"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    modified_by = Column(String)
-    created_by = Column(String)
+    name = Column(String(255), index=True)
+    admin_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    type = Column(Enum("private", "group", name="conversation_type"))
+    modified_by = Column(String(255))
+    created_by = Column(String(255))
 
     participants = relationship("Participant", back_populates="conversation")
 
@@ -58,6 +58,11 @@ class Message(Base, TimeStampMixin):
 
     author = relationship("User", back_populates="messages")
 
+    __table_args__ = (
+        Index("ix_messages_content", "content", mysql_length=255),  # Define a key length for MySQL
+    )
+
+
 class BlockList(Base, TimeStampMixin):
     __tablename__ = "block_list"
     blocker_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
@@ -68,4 +73,4 @@ class Authentications(Base, TimeStampMixin):
     __tablename__ = "authentications"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    token = Column(String, index=True)
+    token = Column(String(255), index=True)

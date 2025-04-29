@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/BoxChat.iml" filepath="$PROJECT_DIR$/.idea/BoxChat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/boxchat.iml" filepath="$PROJECT_DIR$/.idea/boxchat.iml" />
     </modules>
   </component>
 </project>
