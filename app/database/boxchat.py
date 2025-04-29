@@ -69,8 +69,8 @@ class BlockList(Base, TimeStampMixin):
     blocked_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
     is_active = Column(Boolean, default=True)
 
-class Authentications(Base, TimeStampMixin):
-    __tablename__ = "authentications"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    token = Column(String(255), index=True)
+# class Authentications(Base, TimeStampMixin):
+#     __tablename__ = "authentications"
+#     id = Column(Integer, primary_key=True, index=True)
+#     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+#     token = Column(String(255), index=True)
