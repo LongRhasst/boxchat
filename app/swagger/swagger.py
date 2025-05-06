@@ -1,6 +1,6 @@
 from fastapi.openapi.utils import get_openapi
 from fastapi import FastAPI
-from app.Cores.middlewarAuth import public_routes
+from middleware.middlewarAuth import public_routes
 
 def custom_openapi(app: FastAPI):
     if app.openapi_schema:

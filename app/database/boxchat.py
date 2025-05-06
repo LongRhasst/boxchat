@@ -69,6 +69,34 @@ class BlockList(Base, TimeStampMixin):
     blocked_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
     is_active = Column(Boolean, default=True)
 
+class HocSinh(Base):
+    __tablename__  = "hocsinh"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), index=True)
+
+    class HocSinh1(Base):
+        __tablename__ = "hocsinh1"
+        id = Column(Integer, primary_key=True, index=True)
+        name = Column(String(255), index=True)
+
+
+class HocSinh2(Base):
+    __tablename__ = "hocsinh2"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), index=True)
+
+
+class HocSinh3(Base):
+    __tablename__ = "hocsinh3"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), index=True)
+
+
+class HocSinh4(Base):
+    __tablename__ = "hocsinh4"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), index=True)
+
 # class Authentications(Base, TimeStampMixin):
 #     __tablename__ = "authentications"
 #     id = Column(Integer, primary_key=True, index=True)

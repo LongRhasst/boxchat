@@ -4,14 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebcfd788-c6dd-4a48-b4e0-790966de9e55" name="Changes" comment="update migrate">
+    <list default="true" id="ebcfd788-c6dd-4a48-b4e0-790966de9e55" name="Changes" comment="99%">
+      <change afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/modules/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic.ini" beforeDir="false" afterPath="$PROJECT_DIR$/alembic.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/alembic/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Cores/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Cores/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Cores/middlewarAuth.py" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/middlewarAuth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/database/boxchat.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/boxchat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/modules/Users.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/modules/Users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/swagger/swagger.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/swagger/swagger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -33,6 +51,9 @@
     &quot;accountId&quot;: &quot;ad853d99-0780-4749-aff6-471654a69a96&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/frontend/src/App.jsx" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -44,26 +65,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "FastAPI.ChatBox.executor": "Run",
-    "FastAPI.Unnamed.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev__long",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;FastAPI.ChatBox.executor&quot;: &quot;Run&quot;,
+    &quot;FastAPI.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev__long&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\FastAPIProject\BoxChat" />
+      <recent name="D:\FastAPIProject\BoxChat\app\modules\middleware" />
       <recent name="D:\FastAPIProject\BoxChat\app\swagger" />
     </key>
   </component>
@@ -103,7 +126,16 @@
       <workItem from="1745408966534" duration="6268000" />
       <workItem from="1745806428120" duration="583000" />
       <workItem from="1745810557643" duration="4319000" />
-      <workItem from="1745815495946" duration="25884000" />
+      <workItem from="1745815495946" duration="28633000" />
+      <workItem from="1745911783518" duration="8355000" />
+      <workItem from="1746418804499" duration="799000" />
+      <workItem from="1746420392659" duration="637000" />
+      <workItem from="1746426114755" duration="1330000" />
+      <workItem from="1746436061095" duration="770000" />
+      <workItem from="1746437414381" duration="1494000" />
+      <workItem from="1746497614232" duration="3495000" />
+      <workItem from="1746501162537" duration="4892000" />
+      <workItem from="1746512371481" duration="8382000" />
     </task>
     <task id="LOCAL-00001" summary="update conversation schemas, chưa đổi schemas trong api">
       <option name="closed" value="true" />
@@ -129,7 +161,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745829198941</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="99%">
+      <option name="closed" value="true" />
+      <created>1745908902335</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745908902335</updated>
+    </task>
+    <task id="LOCAL-00005" summary="99%">
+      <option name="closed" value="true" />
+      <created>1745908908845</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745908908845</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,12 +209,13 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update conversation schemas, chưa đổi schemas trong api" />
     <MESSAGE value="update migrate" />
-    <option name="LAST_COMMIT_MESSAGE" value="update migrate" />
+    <MESSAGE value="99%" />
+    <option name="LAST_COMMIT_MESSAGE" value="99%" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/boxchat$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1745329554342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/BoxChat$BoxChat.coverage" NAME="BoxChat Coverage Results" MODIFIED="1745403722076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/boxchat$ChatBox.coverage" NAME="ChatBox Coverage Results" MODIFIED="1745415430566" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/BoxChat$ChatBox.coverage" NAME="ChatBox Coverage Results" MODIFIED="1745908242773" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/BoxChat$ChatBox.coverage" NAME="ChatBox Coverage Results" MODIFIED="1746522770501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
